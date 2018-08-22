@@ -36,7 +36,7 @@
             </div>
             <div class="Orencia">
                 <h4>Product 2
-                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-book-id="Product 2"  href="#myModal">Add to cart</button>
+                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-book-id="Product 2" href="#myModal">Add to cart</button>
                 </h4>
             </div>
             <div class="Orencia">
@@ -83,25 +83,25 @@
 
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="myModalTitle"></h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myModalTitle"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
                         <h5 class="modal-body" id="myModalBody"></h5>
-                    Quantity:
-                    <input type="number" value="0" name="quantity" id="quantity" min="1" max="50">
+                        Quantity:
+                        <input type="number" name="quantity" id="quantity" min="1" max="50">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" id="btnSave" class="btn btn-primary">Save changes</button>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" id="btnSave" class="btn btn-primary">Save changes</button>
-                </div>
-              </div>
             </div>
-          </div>
+        </div>
 
         <div class="modal" id="myModal2">
             <div class="modal-content">
@@ -111,19 +111,34 @@
                 </div>
                 <div class="modal-body">
                     <p>Selected items are</p>
-<div id="myModalBody2"></div>
-                    First name:
-                    <input type="text" name="fname"> Last name:
-                    <input type="text" name="lname"> Address:
-                    <input type="text" name="address">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" href="#lost">Submit</button>
+                    <div id="myModalBody2"></div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p1>First name:
+                                <input type="text" id="fname" onkeyup="myFunction(id)" name="fname">
+                            </p1>
+                            <div id="fnameError" class="text-danger"></div>
+                        </div>
+                        <div class="col-md-4">
+                            <p2>Last name:
+                                <input type="text" id="lname" onkeyup="myFunction(id)" name="lname">
+                            </p2>
+                            <div id="lnameError" class="text-danger"></div>
+                        </div>
+                        <div class="col-md-4">
+                            <p3>Address:
+                                <input type="text" id="address" onkeyup="myFunction(id)" name="address">
+                            </p3>
+                            <div id="addrError" class="text-danger"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" id="btnSubmit" class="btn btn-success" data-toggle="modal" href="#lost">Submit</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
     </div>
 
@@ -132,6 +147,9 @@
 </html>
 <script>
     var array = [];
+    var fname;
+    var lname;
+    var address;
     $('input[type="checkbox"]').click(function () {
         if ($('input[type="checkbox"]:checked').length > 0) {
             $('.wrap > div').hide();
@@ -143,32 +161,98 @@
         }
     });
 
-    $('#myModal').on('show.bs.modal', function(e) {
-var title = $(e.relatedTarget).data('book-id');
-$("#myModalTitle").text(title);
-$("#myModalBody").text(title);
-});
+    $('#myModal').on('show.bs.modal', function (e) {
+        var title = $(e.relatedTarget).data('book-id');
+        $("#myModalTitle").text(title);
+        $("#myModalBody").text(title);
+    });
 
-$(function () {
-                $('#myModal').on('click','#btnSave', function (e) {
-                    var item = {};
-                    var name =  document.getElementById("myModalBody").innerText ;
-                    var quantity = $('[id*=quantity]').val();
-                    $('[id*=quantity]').val(0);
-                    item.name = name;
-                    item.quantity = quantity;
-                    array.push(item);
-                    $('#myModal').modal('hide');
-              
-            });
-        });
+    $(function () {
+        $('#myModal').on('click', '#btnSave', function (e) {
+            var item = {};
+            var name = $('#myModalBody').text();
+            //var name =  document.getElementById("myModalBody").innerText ;
+            var quantity = $('[id=quantity]').val();
+            $('[id=quantity]').val(0);
+            item.name = name;
+            item.quantity = quantity;
+            array.push(item);
+            localStorage.setItem("array", JSON.stringify(array));
+            $('#myModal').modal('hide');
 
-$('#myModal2').on('show.bs.modal', function(e) {
-    var i;
-for (i = 0; i < array.length; i++) { 
-    $("#myModalBody2").append(array[i].name + ":" + array[i].quantity +'<br>')
-}
+        });
+    });
 
-});
+    $('#myModal2').on('show.bs.modal', function (e) {
+        var i;
+        array = [];
+        array = JSON.parse(localStorage.getItem("array"));
+        $('#myModalBody2').empty();
+        //document.getElementById('myModalBody2').innerHTML="";
+        for (i = 0; i < array.length; i++) {
+            $("#myModalBody2").append(array[i].name + ":" + array[i].quantity + '<br>')
+        }
+    });
 
+    function myFunction(id) {
+        fname = $('#fname').val();
+        lname = $('#lname').val();
+        address = $('#address').val();
+        var name_regex = /^[a-zA-Z]+$/;
+        var add_regex = /^[0-9a-zA-Z]+$/;
+
+        if (id == "fname") {
+            if (!fname.match(name_regex)) {
+                $('#fnameError').text("Please give only alphabets for First name");
+            } else {
+                $('#fnameError').text("");
+            }
+        }
+        if (id == "lname") {
+            if (!lname.match(name_regex)) {
+                $('#lnameError').text("Please give only alphabets for Last name");
+            } else {
+                $('#lnameError').text("");
+            }
+        }
+
+        if (id == "address") {
+            if (!address.match(add_regex)) {
+                $('#addrError').text("Please give correct address");
+            }
+            else {
+                $('#addrError').text("");
+            }
+        }
+    }
+
+    $(function () {
+        $('#myModal2').on('click', '#btnSubmit', function (e) {
+            fname = $('#fname').val();
+            lname = $('#lname').val();
+            address = $('#address').val();
+            var firstNameEmpty = false;
+            var lastNameEmpty = false;
+            var addressEmpty = false;
+            if (fname.length == 0) {
+                $('#fnameError').text("*Name cannot to empty"); // This Segment Displays The Validation Rule For Name
+                $("#fname").focus();
+                firstNameEmpty = true;
+            }
+            if (lname.length == 0) {
+                $('#lnameError').text("*Last name cannot to empty");
+                $("#lname").focus();
+                lastNameEmpty = true;
+            }
+            if (address.length == 0) {
+                $('#addrError').text("*Address cannot be empty");
+                $("#address").focus();
+                addressEmpty = true;
+            }
+            if(!firstNameEmpty && !lastNameEmpty && !addressEmpty) {
+                alert("Your order has been placed successfully");
+                $('#myModal2').modal('hide');
+            }
+        });
+    });
 </script>
