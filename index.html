@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Welcome to Laxx Cart</title>
+    <title>Welcome to Shopping Cart</title>
 </head>
 
 <body>
@@ -11,11 +11,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <div class="container">
         <h2>Add Products</h2>
-        <!-- Trigger the modal with a button -->
-
-
         <div class="checkboxes">
             Orencia:
             <input name="Orencia" type="checkbox" value="Orencia" id="Orencia" /> Opdivo:
@@ -24,7 +22,6 @@
             <input name="Eliquis" type="checkbox" value="Eliquis" id="Eliquis" />
             <button type="button" class="btn btn-success btn-lg pull-right" data-toggle="modal" href="#myModal2">Checkout</button>
         </div>
-
         <div class="wrap">
             <div class="Orencia">
                 <h4>Product 1
@@ -77,7 +74,6 @@
                 </h4>
             </div>
         </div>
-
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -246,7 +242,7 @@
                 $("#address").focus();
                 addressEmpty = true;
             }
-            if(!firstNameEmpty && !lastNameEmpty && !addressEmpty) {
+            if (!firstNameEmpty && !lastNameEmpty && !addressEmpty) {
                 alert("Your order has been placed successfully");
                 $('#myModal2').modal('hide');
             }
